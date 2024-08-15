@@ -1,9 +1,9 @@
+import express from "express";
 import colors from "colors";
 import cors, { CorsOptions } from "cors";
 import morgan from 'morgan'
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger";
-import express from "express";
 import router from "./router";
 import db from "./config/db";
 
@@ -28,16 +28,26 @@ const server = express();
 //? orgin tomo una funcion con dos argumentos arigin que es el dominio que esta realizando
 //? la peticon y callback que es para gestionar las accion despues de saber que dominio esta realizando la peticion
 
-const corsOptions: CorsOptions = {
-  origin: function (origin, callback) {
-    if (origin === process.env.FRONTEND_URL) {
-      // el null es que no hay error y true para permitir la conexion
-      callback(null, true);
-    } else {
-      callback(new Error("Error de CORS"));
-    }
-  },
-};
+// const corsOptions: CorsOptions = {
+//   origin: function (origin, callback) {
+//     if (origin === process.env.FRONTEND_URL) {
+//       // el null es que no hay error y true para permitir la conexion
+//       callback(null, true)
+//     } else {
+//       callback(new Error("Error de CORS revisado"));
+//     }
+//   },
+// };
+
+const corsOptions : CorsOptions = {
+  origin: function(origin, callback) {
+      if(origin === process.env.FRONTEND_URL) {
+          callback(null, true)
+      } else {
+          callback(new Error('Error de CORS revisado')) 
+      }
+  }
+}
 
 server.use(cors(corsOptions));
 
